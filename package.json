@@ -1,0 +1,18 @@
+{
+   "name": "worm",
+   "version": "0.0.1",
+   "dependencies": {
+   	  "telehash": "*",
+      "optimist": "*"
+   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quartzjer/worm.git"
+  },
+  "licenses": [
+  {
+    "type": "MIT",
+    "url": "https://github.com/quartzjer/worm/raw/master/LICENSE"
+  }
+  ]
+}
