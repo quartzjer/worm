@@ -41,14 +41,13 @@ function init(key)
       process.exit(0);
     }
     if(holehash) {
-      hole = worm.wrap(worm.stream(holehash).send({type:"_wormhole"}));
+      hole = worm.wrap(worm.stream(holehash, "wormhole").send({}));
       process.stdin.pipe(hole);
     } else console.error("This worm is:",worm.hashname);
   });
 
-  worm.listen("_wormhole", function(chat, packet, callback){
-    if(callback) callback();
-    packet.stream.send({}); // ack
-    worm.wrap(packet.stream).pipe(process.stdout);
+  worm.listen("wormhole", function(err, stream, js){
+    stream.send({}); // ack
+    worm.wrap(stream).pipe(process.stdout);
   });
 }
