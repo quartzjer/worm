@@ -1,53 +1,28 @@
 var fs = require("fs");
+var path = require("path-extra");
 var tele = require("telehash");
 var argv = require("optimist")
   .usage("Usage: type '$0' to receive (prints it's hashname) and 'cat foo.txt | $0 hashdestination' to send")
-  .default("id", process.env.HOME + "/.worm.json")
-  .default("seeds", "./seeds.json")
   .boolean("v").describe("v", "verbose")
   .argv;
 
 if(argv.v) tele.debug(console.log);
 var holehash = argv._[0];
-if(holehash && !tele.isHashname(holehash))
+
+var base = (holehash) ? "base" : holehash;
+argv.id = (argv.id) ? path.resolve(argv.id) : path.join(path.homedir(),".worm_"+base+".json");
+if(argv.seeds) argv.seeds = path.resolve(argv.seeds);
+
+function link(sock)
 {
-  console.error("invalid destination hashname (must be 64 hex characters):",holehash);
-  process.exit(1);
+  if(!sock) return console.error("invalid destination hashname",holehash);
+  process.stdin.pipe(sock);
+  sock.pipe(process.stdout);
 }
+var worm = tele.init(argv, function(err){
+  if(err) return console.error("error initializing",err);
+  worm.onSock(link);
+  if(holehash) link(worm.sock(holehash));
+  else console.error("worm listening at",worm.hashname);
+});
 
-var worm;
-var hole;
-
-// load or generate our crypto id
-if(fs.existsSync(argv.id))
-{
-  init(require(argv.id));
-}else{
-  tele.genkey(function(err, key){
-    fs.writeFileSync(argv.id, JSON.stringify(key, null, 4));
-    init(key);
-  });
-}
-
-function init(key)
-{
-  worm = tele.hashname(key);
-
-  require(argv.seeds).forEach(worm.addSeed);
-
-  worm.online(function(err){
-    if(err) {
-      console.error(err);
-      process.exit(0);
-    }
-    if(holehash) {
-      hole = worm.wrap(worm.stream(holehash, "wormhole").send({}));
-      process.stdin.pipe(hole);
-    } else console.error("This worm is:",worm.hashname);
-  });
-
-  worm.listen("wormhole", function(err, stream, js){
-    stream.send({}); // ack
-    worm.wrap(stream).pipe(process.stdout);
-  });
-}

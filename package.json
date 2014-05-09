@@ -2,8 +2,9 @@
    "name": "worm",
    "version": "0.0.1",
    "dependencies": {
-   	  "telehash": "*",
-      "optimist": "*"
+     "telehash": "0.2.x",
+     "path-extra":"*",
+     "optimist": "*"
    },
   "repository": {
     "type": "git",
