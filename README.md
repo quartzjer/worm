@@ -1,4 +1,4 @@
 worm
 ====
 
-telehash-based compiled port forwarding tools
+telehash-based port forwarding command-line tools

@@ -1,19 +1,21 @@
 {
-   "name": "worm",
-   "version": "0.0.1",
-   "dependencies": {
-     "telehash": "0.2.x",
-     "path-extra":"*",
-     "optimist": "*"
-   },
+  "name": "worm",
+  "version": "0.0.1",
+  "description": "telehash-based port forwarding command line tools",
+  "dependencies": {
+    "libev-c": "git+https://github.com/quartzjer/libev.git",
+    "telehash-c": "git+https://github.com/telehash/telehash-c.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/quartzjer/worm.git"
   },
-  "licenses": [
-  {
+  "author": "Jeremie Miller",
+  "license": {
     "type": "MIT",
     "url": "https://github.com/quartzjer/worm/raw/master/LICENSE"
   }
-  ]
 }
