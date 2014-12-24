@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include "telehash.h"
-#include "telehash_unix.h"
+#include "net_udp4.h"
 
 // load local keys from a file, or generate and save them there
 lob_t idload(char *fname)

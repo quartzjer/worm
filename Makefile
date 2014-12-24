@@ -1,4 +1,4 @@
-all: node_modules worms wormd
+all: node_modules worms
 	
 node_modules:
 	npm install
