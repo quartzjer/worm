@@ -1,4 +1,4 @@
 worm
 ====
 
-telehash-based stdin/stdout tunnel tool
+telehash-based compiled port forwarding tools
